@@ -76,7 +76,7 @@ const  criarUsuario  = async(req, res = response) => {
 
 const atualizarUsuario = async (req, res = response) => {
 
-    // TODO: Validar token y comprobar si es el usuario correcto
+    // TODO: validar token e verificar se está correto
 
     const uid = req.params.id;
 
@@ -88,12 +88,12 @@ const atualizarUsuario = async (req, res = response) => {
         if ( !usuarioDB ) {
             return res.status(404).json({
                 ok: false,
-                msg: 'No existe un usuario por ese id'
+                msg: 'Não existe usuário por esse is'
             });
         }
 
-        // Actualizaciones
-        const { password, google, email, ...campos } = req.body;
+        // Atualizacões
+        const { password, email, ...campos } = req.body;
 
         if ( usuarioDB.email !== email ) {
 
@@ -101,7 +101,7 @@ const atualizarUsuario = async (req, res = response) => {
             if ( existeEmail ) {
                 return res.status(400).json({
                     ok: false,
-                    msg: 'Ya existe un usuario con ese email'
+                    msg: 'Já existe usuário com esse email'
                 });
             }
         }
