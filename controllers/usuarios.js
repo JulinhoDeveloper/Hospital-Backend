@@ -2,12 +2,12 @@ const { response } = require('express');
 const bcrypt = require('bcryptjs');
 
 const Usuario = require('../models/usuario');
+const { gerarJWT } = require('../helpers/jwt');
 
 
 
 
-
-const criarUsuario = async(req, res = response) => {
+const  criarUsuario  = async(req, res = response) => {
 
     const { email, password } = req.body;
 
@@ -18,22 +18,22 @@ const criarUsuario = async(req, res = response) => {
         if ( existeEmail ) {
             return res.status(400).json({
                 ok: false,
-                msg: 'E-mail já cadastrado'
+                msg: 'O email já existe'
             });
         }
 
         const usuario = new Usuario( req.body );
     
-        // Senha criptografada
+        // criptografar a senha
         const salt = bcrypt.genSaltSync();
         usuario.password = bcrypt.hashSync( password, salt );
     
     
-        // Salvar usuário
+        // Guardar usuario
         await usuario.save();
 
-        // Gerar  TOKEN - JWT
-        const token = await generarJWT( usuario.id );
+        // Gerar o TOKEN - JWT
+        const token = await gerarJWT( usuario.id );
 
 
         res.json({
@@ -47,7 +47,7 @@ const criarUsuario = async(req, res = response) => {
         console.log(error);
         res.status(500).json({
             ok: false,
-            msg: 'Erro inesperado... revisar logs'
+            msg: 'Error inesperado... revisar logs'
         });
     }
 
@@ -57,10 +57,6 @@ const criarUsuario = async(req, res = response) => {
 
 
 
-
-
-
 module.exports = {
-   
-    criarUsuario
+    criarUsuario 
 }
