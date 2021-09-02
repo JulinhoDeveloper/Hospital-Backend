@@ -7,7 +7,7 @@ const Usuario = require('../models/usuario');
 
 
 
-const crearUsuario = async(req, res = response) => {
+const criarUsuario = async(req, res = response) => {
 
     const { email, password } = req.body;
 
@@ -18,21 +18,21 @@ const crearUsuario = async(req, res = response) => {
         if ( existeEmail ) {
             return res.status(400).json({
                 ok: false,
-                msg: 'El correo ya está registrado'
+                msg: 'E-mail já cadastrado'
             });
         }
 
         const usuario = new Usuario( req.body );
     
-        // Encriptar contraseña
+        // Senha criptografada
         const salt = bcrypt.genSaltSync();
         usuario.password = bcrypt.hashSync( password, salt );
     
     
-        // Guardar usuario
+        // Salvar usuário
         await usuario.save();
 
-        // Generar el TOKEN - JWT
+        // Gerar  TOKEN - JWT
         const token = await generarJWT( usuario.id );
 
 
@@ -47,7 +47,7 @@ const crearUsuario = async(req, res = response) => {
         console.log(error);
         res.status(500).json({
             ok: false,
-            msg: 'Error inesperado... revisar logs'
+            msg: 'Erro inesperado... revisar logs'
         });
     }
 
@@ -62,5 +62,5 @@ const crearUsuario = async(req, res = response) => {
 
 module.exports = {
    
-    crearUsuario
+    criarUsuario
 }
