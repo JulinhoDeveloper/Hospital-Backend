@@ -4,7 +4,27 @@ const bcrypt = require('bcryptjs');
 const Usuario = require('../models/usuario');
 const { gerarJWT } = require('../helpers/jwt');
 
+const getUsuarios = async(req, res) => {
 
+    const desde = Number(req.query.desde) || 0;
+
+    const [ usuarios, total ] = await Promise.all([
+        Usuario
+            .find({}, 'name email role img')
+            .skip( desde )
+            .limit( 5 ),
+
+        Usuario.countDocuments()
+    ]);
+
+
+    res.json({
+        ok: true,
+        usuarios,
+        total
+    });
+
+}
 
 
 const  criarUsuario  = async(req, res = response) => {
@@ -58,5 +78,6 @@ const  criarUsuario  = async(req, res = response) => {
 
 
 module.exports = {
-    criarUsuario 
+    criarUsuario,
+    getUsuarios
 }

@@ -20,7 +20,7 @@ app.use( express.json() );
 
 // Rotas
 
-
+app.use( '/api/usuarios', require('./routes/usuarios'));
 
 
 
