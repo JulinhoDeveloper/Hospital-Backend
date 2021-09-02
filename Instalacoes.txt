@@ -2,6 +2,5 @@ npm i express mongoose dotenv
 npm i nodemon
 npm i bcrypt
 cors
-bcryptjs
 express-validator
 jsonwebtoken
